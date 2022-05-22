@@ -126,26 +126,30 @@ void play_game(void) {
 
 		// If a valid button is pushed, then we reset the flash cycle by reset
 		// the last_flash_time
-		if (btn != NO_BUTTON_PUSHED) {
-			last_flash_time = get_current_time()
-		}
+// 		if (btn != NO_BUTTON_PUSHED) {
+// 			last_flash_time = get_current_time();
+// 		}
 
 		if (btn == BUTTON3_PUSHED) {
 			// If button 3 is pushed, move left,
 			// i.e decrease x by 1 and leave y the same
 			move_display_cursor(-1, 0);
+			last_flash_time = get_current_time();
 		} else if (btn == BUTTON2_PUSHED) {
 			// If button 2 is pushed, move right,
 			// i.e increase x by 1 and leave y the same
 			move_display_cursor(1, 0);
+			last_flash_time = get_current_time();
 		} else if (btn == BUTTON1_PUSHED) {
 			// If button 1 is pushed, move up,
 			// i.e increase y by 1 and leave x the same
 			move_display_cursor(0, 1);
+			last_flash_time = get_current_time();
 		} else if (btn == BUTTON0_PUSHED) {
 			// If button 0 is pushed, move down,
 			// i.e decrease y by 1 and leave x the same
 			move_display_cursor(0, -1);
+			last_flash_time = get_current_time();
 		}
 
 		current_time = get_current_time();

@@ -90,11 +90,22 @@ void move_display_cursor(int8_t dx, int8_t dy) {
 	uint8_t piece_at_cursor = get_piece_at(cursor_x, cursor_y);
 	update_square_colour(cursor_x, cursor_y, piece_at_cursor);
 	// 2: update the positional knowledge & visibility of the cursor
-	cursor_x = (cursor_x + dx) % WIDTH;
-	cursor_y = (cursor_y + dy) % HEIGHT;
+	cursor_x = cursor_x + dx;
+	if (cursor_x >= 0) {
+		cursor_x %= WIDTH;
+	} else {
+		cursor_x += WIDTH;
+	}
+	 
+	cursor_y = cursor_y + dy;
+	if (cursor_y >= 0) {
+		cursor_y %= HEIGHT;
+		} else {
+		cursor_y += HEIGHT;
+	}
 	cursor_visible = 0;
 	// 3: display the cursor at the new location
-	flash_cursor()
+	flash_cursor();
 }
 
 uint8_t is_game_over(void) {
