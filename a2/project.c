@@ -128,6 +128,18 @@ void play_game(void) {
 			// If button 3 is pushed, move left,
 			// i.e decrease x by 1 and leave y the same
 			move_display_cursor(-1, 0);
+		} else if (btn == BUTTON2_PUSHED) {
+			// If button 2 is pushed, move right,
+			// i.e increase x by 1 and leave y the same
+			move_display_cursor(1, 0);
+		} else if (btn == BUTTON1_PUSHED) {
+			// If button 1 is pushed, move up,
+			// i.e increase y by 1 and leave x the same
+			move_display_cursor(0, 1);
+		} else if (btn == BUTTON0_PUSHED) {
+			// If button 0 is pushed, move down,
+			// i.e decrease y by 1 and leave x the same
+			move_display_cursor(0, -1);
 		}
 	
 		current_time = get_current_time();
