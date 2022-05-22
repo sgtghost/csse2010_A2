@@ -86,7 +86,15 @@ void move_display_cursor(int8_t dx, int8_t dy) {
 	 * 4: reset the cursor flashing cycle. See project.c for how the cursor
 	 *		is flashed.
 	 */
-	
+	// 1: Replace the display of the cursor at its old location with whatever is there right now
+	uint8_t piece_at_cursor = get_piece_at(cursor_x, cursor_y);
+	update_square_colour(cursor_x, cursor_y, piece_at_cursor);
+	// 2: update the positional knowledge & visibility of the cursor
+	cursor_x = (cursor_x + dx) % WIDTH;
+	cursor_y = (cursor_y + dy) % HEIGHT;
+	cursor_visible = 0;
+	// 3: display the cursor at the new location
+	flash_cursor()
 }
 
 uint8_t is_game_over(void) {
