@@ -166,7 +166,11 @@ void play_game(void) {
 				// i.e decrease y by 1 and leave x the same
 				move_display_cursor(0, -1);
 			} else if (serial_input == ' ') {
-				piece_placement();
+				if (check_phase() == 1) {
+					piece_placement();
+				} else {
+					move_piece();
+				}
 			}
 		}
 		

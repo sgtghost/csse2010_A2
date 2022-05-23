@@ -22,8 +22,15 @@ uint8_t board[WIDTH][HEIGHT];
 // All other positions should be unsigned as there are no negative coordinates.
 int8_t cursor_x;
 int8_t cursor_y;
+int8_t last_cursor_x;
+int8_t last_cursor_y;
 uint8_t cursor_visible;
 uint8_t current_player;
+
+// Pieces & Phase record
+uint8_t player1_pieces;
+uint8_t player2_pieces;
+uint8_t phase;
 
 void initialise_game(void) {
 	
@@ -45,6 +52,16 @@ void initialise_game(void) {
 	cursor_y = CURSOR_Y_START;
 	cursor_visible = 0;
 	
+	// Last position of cursor
+	last_cursor_x = CURSOR_X_START;
+	last_cursor_y = CURSOR_Y_START;
+	
+	// and the pieces & phase
+	player1_pieces = 0;
+	player2_pieces = 0;
+	phase = 1;
+	
+	// Print the starting turn message
 	move_terminal_cursor(10, 10);
 	printf("Current player: 1, green");
 }
@@ -117,8 +134,10 @@ void piece_placement(void) {
 		board[cursor_x][cursor_y] = current_player;
 		update_square_colour(cursor_x, cursor_y, current_player);
 		if (current_player == PLAYER_1) {
+			player1_pieces += 1;
 			current_player = PLAYER_2;
 		} else {
+			player2_pieces += 1;
 			current_player = PLAYER_1;
 		}
 		if (current_player == PLAYER_1) {
@@ -131,7 +150,47 @@ void piece_placement(void) {
 			printf("Current player: 2, red");
 		}
 	}
+	if (player1_pieces == 4 && player2_pieces == 4) {
+		phase = 2;
+		clear_terminal();
+		move_terminal_cursor(10, 10);
+		printf("Current Phase: 2, Current Player : %d", current_player);
+	}
 }
+
+void remove_piece(void) {
+	if(board[cursor_x][cursor_y] != EMPTY_SQUARE && current_player == board[cursor_x][cursor_y]) {
+		board[cursor_x][cursor_y] = EMPTY_SQUARE;
+		update_square_colour(cursor_x, cursor_y, EMPTY_SQUARE);
+		if (current_player == PLAYER_1) {
+			player1_pieces -= 1;
+		} else {
+			player2_pieces -= 1;
+		}
+	}
+}
+
+
+void move_piece(void) {
+	if (player1_pieces == 4 && player2_pieces == 4) {
+		remove_piece();
+		last_cursor_x = cursor_x;
+		last_cursor_y = cursor_y;
+	} else {
+		if (abs(cursor_x - last_cursor_x) <= 1 && abs(cursor_y - last_cursor_y) <= 1) {
+			if (player1_pieces == 3 || player2_pieces == 3) {
+				piece_placement();
+			}
+		}
+	}
+}
+
+
+
+uint8_t check_phase() {
+	return phase;
+}
+
 
 uint8_t is_game_over(void) {
 	// YOUR CODE HERE

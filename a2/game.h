@@ -35,6 +35,17 @@ void move_display_cursor(int8_t dx, int8_t dy);
 // active player is switched.
 void piece_placement(void);
 
+// remove the piece at the current position. 
+void remove_piece(void);
+
+// attempt to remove a piece at the current position on first call,
+// then on second call, place the piece at the current position.
+// If successful, the active player is switched.
+void move_piece(void);
+
+// returns the phase (1/2) of the game right now
+uint8_t check_phase(void);
+
 // returns 1 if the game is over, 0 otherwise
 uint8_t is_game_over(void);
 
