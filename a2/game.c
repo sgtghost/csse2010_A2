@@ -24,6 +24,7 @@ int8_t cursor_x;
 int8_t cursor_y;
 int8_t last_cursor_x;
 int8_t last_cursor_y;
+uint8_t current_cursor;
 uint8_t cursor_visible;
 uint8_t current_player;
 
@@ -51,6 +52,7 @@ void initialise_game(void) {
 	cursor_x = CURSOR_X_START;
 	cursor_y = CURSOR_Y_START;
 	cursor_visible = 0;
+	current_cursor = CURSOR;
 	
 	// Last position of cursor
 	last_cursor_x = CURSOR_X_START;
@@ -86,7 +88,7 @@ void flash_cursor(void) {
 		
 	} else {
 		// we need to flash the cursor on
-		update_square_colour(cursor_x, cursor_y, CURSOR);
+		update_square_colour(cursor_x, cursor_y, current_cursor);
 	}
 	cursor_visible = 1 - cursor_visible; //alternate between 0 and 1
 }
@@ -167,6 +169,7 @@ void remove_piece(void) {
 		} else {
 			player2_pieces -= 1;
 		}
+		current_cursor = PICK_CURSOR;
 	}
 }
 
@@ -177,9 +180,11 @@ void move_piece(void) {
 		last_cursor_x = cursor_x;
 		last_cursor_y = cursor_y;
 	} else {
-		if (abs(cursor_x - last_cursor_x) <= 1 && abs(cursor_y - last_cursor_y) <= 1) {
+		if (abs(cursor_x - last_cursor_x) <= 1 && abs(cursor_y - last_cursor_y) <= 1 &&
+		(cursor_x != last_cursor_x || cursor_y != last_cursor_y)) {
 			if (player1_pieces == 3 || player2_pieces == 3) {
 				piece_placement();
+				current_cursor = CURSOR;
 			}
 		}
 	}
