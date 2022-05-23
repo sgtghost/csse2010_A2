@@ -153,18 +153,20 @@ void play_game(void) {
 				// If the serial input is 'a/A', move left,
 				// i.e decrease x by 1 and leave y the same
 				move_display_cursor(-1, 0);
-				} else if (serial_input == 'd' || serial_input == 'D') {
+			} else if (serial_input == 'd' || serial_input == 'D') {
 				// If the serial input is 'd/D', move right,
 				// i.e increase x by 1 and leave y the same
 				move_display_cursor(1, 0);
-				} else if (serial_input == 'w' || serial_input == 'W') {
+			} else if (serial_input == 'w' || serial_input == 'W') {
 				// If the serial input is 'w/W', move up,
 				// i.e increase y by 1 and leave x the same
 				move_display_cursor(0, 1);
-				} else if (serial_input == 's' || serial_input == 'S') {
+			} else if (serial_input == 's' || serial_input == 'S') {
 				// If the serial input is 's/S', move down,
 				// i.e decrease y by 1 and leave x the same
 				move_display_cursor(0, -1);
+			} else if (serial_input == ' ') {
+				piece_placement();
 			}
 		}
 		

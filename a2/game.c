@@ -108,6 +108,20 @@ void move_display_cursor(int8_t dx, int8_t dy) {
 	flash_cursor();
 }
 
+// attempt to place a piece at the current position. If successful, the
+// active player is switched.
+void piece_placement(void) {
+	if(board[cursor_x][cursor_y] == EMPTY_SQUARE) {
+		board[cursor_x][cursor_y] = current_player;
+		update_square_colour(cursor_x, cursor_y, current_player);
+		if (current_player == PLAYER_1) {
+			current_player = PLAYER_2;
+		} else {
+			current_player = PLAYER_1;
+		}
+	}
+}
+
 uint8_t is_game_over(void) {
 	// YOUR CODE HERE
 	// Detect if the game is over i.e. if a player has won.
