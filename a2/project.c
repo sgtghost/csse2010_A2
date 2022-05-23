@@ -123,13 +123,6 @@ void play_game(void) {
 		// We need to check if any button has been pushed, this will be
 		// NO_BUTTON_PUSHED if no button has been pushed
 		btn = button_pushed();
-
-		// If a valid button is pushed, then we reset the flash cycle by reset
-		// the last_flash_time
-// 		if (btn != NO_BUTTON_PUSHED) {
-// 			last_flash_time = get_current_time();
-// 		}
-
 		if (btn == BUTTON3_PUSHED) {
 			// If button 3 is pushed, move left,
 			// i.e decrease x by 1 and leave y the same
