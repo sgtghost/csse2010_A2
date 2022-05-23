@@ -114,6 +114,7 @@ void play_game(void) {
 	
 	uint32_t last_flash_time, current_time;
 	uint8_t btn; //the button pushed
+	char serial_input; //the keyboard input
 	
 	last_flash_time = get_current_time();
 	
@@ -123,28 +124,50 @@ void play_game(void) {
 		// We need to check if any button has been pushed, this will be
 		// NO_BUTTON_PUSHED if no button has been pushed
 		btn = button_pushed();
+		serial_input = -1;
 		if (btn == BUTTON3_PUSHED) {
 			// If button 3 is pushed, move left,
 			// i.e decrease x by 1 and leave y the same
 			move_display_cursor(-1, 0);
 			last_flash_time = get_current_time();
-		} else if (btn == BUTTON2_PUSHED) {
+			} else if (btn == BUTTON2_PUSHED) {
 			// If button 2 is pushed, move right,
 			// i.e increase x by 1 and leave y the same
 			move_display_cursor(1, 0);
 			last_flash_time = get_current_time();
-		} else if (btn == BUTTON1_PUSHED) {
+			} else if (btn == BUTTON1_PUSHED) {
 			// If button 1 is pushed, move up,
 			// i.e increase y by 1 and leave x the same
 			move_display_cursor(0, 1);
 			last_flash_time = get_current_time();
-		} else if (btn == BUTTON0_PUSHED) {
+			} else if (btn == BUTTON0_PUSHED) {
 			// If button 0 is pushed, move down,
 			// i.e decrease y by 1 and leave x the same
 			move_display_cursor(0, -1);
 			last_flash_time = get_current_time();
 		}
-
+		
+		if (serial_input_available()) {
+			serial_input = fgetc(stdin);
+			if (serial_input == 'a' || serial_input == 'A') {
+				// If the serial input is 'a/A', move left,
+				// i.e decrease x by 1 and leave y the same
+				move_display_cursor(-1, 0);
+				} else if (serial_input == 'd' || serial_input == 'D') {
+				// If the serial input is 'd/D', move right,
+				// i.e increase x by 1 and leave y the same
+				move_display_cursor(1, 0);
+				} else if (serial_input == 'w' || serial_input == 'W') {
+				// If the serial input is 'w/W', move up,
+				// i.e increase y by 1 and leave x the same
+				move_display_cursor(0, 1);
+				} else if (serial_input == 's' || serial_input == 'S') {
+				// If the serial input is 's/S', move down,
+				// i.e decrease y by 1 and leave x the same
+				move_display_cursor(0, -1);
+			}
+		}
+		
 		current_time = get_current_time();
 		if(current_time >= last_flash_time + 500) {
 			// 500ms (0.5 second) has passed since the last time we
