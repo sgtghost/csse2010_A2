@@ -44,7 +44,9 @@ void initialise_game(void) {
 	cursor_x = CURSOR_X_START;
 	cursor_y = CURSOR_Y_START;
 	cursor_visible = 0;
-
+	
+	move_terminal_cursor(10, 10);
+	printf("Current player: 1, green");
 }
 
 uint8_t get_piece_at(uint8_t x, uint8_t y) {
@@ -59,24 +61,6 @@ uint8_t get_piece_at(uint8_t x, uint8_t y) {
 }
 
 void flash_cursor(void) {
-	void clear_screen(){
-		#ifdef WINDOWS
-		system ( "CLS" );
-		#else
-		// Assume POSIX
-		system ( "clear" );
-		#endif
-	}
-	
-	
-	if (current_player == PLAYER_1) {
-		printf ("\r");
-		printf("Current player: 1, green");
-	} else {
-		printf ("\r");
-		printf("Current player: 2, red  ");
-	}
-	
 	if (cursor_visible) {
 		// we need to flash the cursor off, it should be replaced by
 		// the colour of the piece which is at that location
@@ -136,6 +120,15 @@ void piece_placement(void) {
 			current_player = PLAYER_2;
 		} else {
 			current_player = PLAYER_1;
+		}
+		if (current_player == PLAYER_1) {
+			clear_terminal();
+			move_terminal_cursor(10, 10);
+			printf("Current player: 1, green");
+		} else {
+			clear_terminal();
+			move_terminal_cursor(10, 10);
+			printf("Current player: 2, red");
 		}
 	}
 }
