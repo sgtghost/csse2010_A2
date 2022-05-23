@@ -44,6 +44,7 @@ void initialise_game(void) {
 	cursor_x = CURSOR_X_START;
 	cursor_y = CURSOR_Y_START;
 	cursor_visible = 0;
+
 }
 
 uint8_t get_piece_at(uint8_t x, uint8_t y) {
@@ -58,6 +59,23 @@ uint8_t get_piece_at(uint8_t x, uint8_t y) {
 }
 
 void flash_cursor(void) {
+	void clear_screen(){
+		#ifdef WINDOWS
+		system ( "CLS" );
+		#else
+		// Assume POSIX
+		system ( "clear" );
+		#endif
+	}
+	
+	
+	if (current_player == PLAYER_1) {
+		printf ("\r");
+		printf("Current player: 1, green");
+	} else {
+		printf ("\r");
+		printf("Current player: 2, red  ");
+	}
 	
 	if (cursor_visible) {
 		// we need to flash the cursor off, it should be replaced by
