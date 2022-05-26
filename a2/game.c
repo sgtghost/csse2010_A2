@@ -158,6 +158,7 @@ void piece_placement(void) {
 		move_terminal_cursor(10, 10);
 		printf("Current Phase: %d, Current Player : %d", phase, current_player);
 	}
+	current_cursor = CURSOR;
 }
 
 void remove_piece(void) {
@@ -206,8 +207,83 @@ uint8_t check_phase() {
 }
 
 
+// uint8_t is_game_over(void) {
+// 	// YOUR CODE HERE
+// 	// Detect if the game is over i.e. if a player has won.
+// 	return 0;
+// }
+
+
 uint8_t is_game_over(void) {
-	// YOUR CODE HERE
-	// Detect if the game is over i.e. if a player has won.
+	// Detect if the game is over at phase 2. 
+	// i.e. if a player has won.
+	// Search for the first piece of current player.
+	// Then search piece's surrounding, see if there
+	// is any sibling. If not then the game is not ended yet.
+	// If so then we do a loop, check whether other pieces
+	// in the same direction where we found the sibling
+	// is also the sibling of the first piece.
+	// If so then the game is ended.
+	if (phase == 2) {
+		for (int8_t x = 0; x < WIDTH; x++) {
+			for (int8_t y = 0; y < HEIGHT; y++) {
+				if (board[x][y] == current_player) {
+					//check horizontal direction
+					if (x + 3 < WIDTH) {
+						uint8_t count = 1;
+						for (uint8_t i = 1; i <= 3; i++) {
+							if (board[x + i][y] != current_player) {
+								break;
+							}
+							count += 1;
+						}
+						if (count == 4) {
+							return 1;
+						}
+					}
+					//check vertical direction
+					if (y + 3 < HEIGHT) {
+						uint8_t count = 1;
+						for (uint8_t i = 1; i <= 3; i++) {
+							if (board[x][y + i] != current_player) {
+								break;
+							}
+							count += 1;
+						}
+						if (count == 4) {
+							return 1;
+						}
+					}
+					
+					//check the diagonal line--upward & rightward
+					if (x + 3 < WIDTH && y + 3 < HEIGHT) {
+						uint8_t count = 1;
+						for (uint8_t i = 1; i <= 3; i++) {
+							if (board[x + i][y + i] != current_player) {
+								break;
+							}
+							count += 1;
+						}
+						if (count == 4) {
+							return 1;
+						}
+					}
+					//check the diagonal line--upward & leftward
+					if (x - 3 <= 0 && y + 3 < HEIGHT) {
+						uint8_t count = 1;
+						for (uint8_t i = 1; i <= 3; i++) {
+							if (board[x - i][y + i] != current_player) {
+								break;
+							}
+							count += 1;
+						}
+						if (count == 4) {
+							return 1;
+						}
+					}
+				}
+			}
+		}
+	}
 	return 0;
 }

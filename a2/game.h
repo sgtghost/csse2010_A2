@@ -19,6 +19,9 @@
 // their pick-up pieces.
 uint8_t phase;
 
+// Current player of this turn
+uint8_t current_player;
+
 // initialise the display of the board, this creates the internal board
 // and also updates the display of the board
 void initialise_game(void);

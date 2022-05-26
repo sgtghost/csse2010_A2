@@ -172,11 +172,6 @@ void play_game(void) {
 			} else if (serial_input == ' ') {
 				// If the serial input is ' ', place or remove the pieces
 				// based on the phase.
-				// Note: The original phase 2 is split into 2 phases here:
-				// The new 'Phase 2' represents the stage in OG phase 2 where players select and 
-				// pick up their pieces.
-				// And the new 'Phase 3' represents the stage in OG phase 2 where player put down
-				// their pick-up pieces.
 				if (check_phase() == 1) {
 					if (check_valid_move(1) != 1) {
 						PORTA = 1;
@@ -184,6 +179,9 @@ void play_game(void) {
 					}
 					PORTA = 0;
 					piece_placement();
+				// Note: The original phase 2 is split into 2 phases here:
+				// The new 'Phase 2' represents the stage in OG phase 2 where players
+				// pick up their pieces.
 				} else if (check_phase() == 2){
 					if (check_valid_move(2) != 1) {
 						PORTA = 1;
@@ -191,13 +189,15 @@ void play_game(void) {
 					}
 					remove_piece();
 					PORTA = 0;
+				// And the new 'Phase 3' represents the stage in OG phase 2 where player put down
+				// their pick-up pieces.
 				} else if (check_phase() == 3){
 				if (check_valid_move(3) != 1) {
 					PORTA = 1;
 					continue;
 				}
-				PORTA = 0;
 				piece_placement();
+				PORTA = 0;
 			}
 			}
 		}
@@ -219,10 +219,10 @@ void handle_game_over() {
 	move_terminal_cursor(10,14);
 	printf_P(PSTR("GAME OVER"));
 	move_terminal_cursor(10,15);
+	printf_P(PSTR("Winner is %d"), current_player);
+	move_terminal_cursor(10,16);
 	printf_P(PSTR("Press a button to start again"));
-	
 	while(button_pushed() == NO_BUTTON_PUSHED) {
-		; // wait
+		 // wait
 	}
-	
 }
