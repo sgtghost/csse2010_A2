@@ -156,7 +156,7 @@ void piece_placement(void) {
 		phase = 2;
 		clear_terminal();
 		move_terminal_cursor(10, 10);
-		printf("Current Phase: 2, Current Player : %d", current_player);
+		printf("Current Phase: %d, Current Player : %d", phase, current_player);
 	}
 }
 
@@ -168,29 +168,38 @@ void remove_piece(void) {
 			player1_pieces -= 1;
 		} else {
 			player2_pieces -= 1;
-		}
+		} 
 		current_cursor = PICK_CURSOR;
+		last_cursor_x = cursor_x;
+		last_cursor_y = cursor_y;
+		phase = 3;
 	}
 }
 
 
-void move_piece(void) {
-	if (player1_pieces == 4 && player2_pieces == 4) {
-		remove_piece();
-		last_cursor_x = cursor_x;
-		last_cursor_y = cursor_y;
-	} else {
-		if (abs(cursor_x - last_cursor_x) <= 1 && abs(cursor_y - last_cursor_y) <= 1 &&
-		(cursor_x != last_cursor_x || cursor_y != last_cursor_y)) {
-			if (player1_pieces == 3 || player2_pieces == 3) {
-				piece_placement();
-				current_cursor = CURSOR;
+uint8_t check_valid_move(uint8_t phase) {
+	if (phase == 1) {
+		if (board[cursor_x][cursor_y] == EMPTY_SQUARE) {
+			return 1;
+		}
+	} else if (phase == 2) {
+		if (board[cursor_x][cursor_y] != EMPTY_SQUARE) {
+			if (board[cursor_x][cursor_y] == current_player) {
+				return 1;
+			}
+		}
+	} else if (phase == 3) {
+		if (abs(cursor_x - last_cursor_x) <= 1 && abs(cursor_y - last_cursor_y) <= 1) {
+			if (cursor_x != last_cursor_x || cursor_y != last_cursor_y) {
+				if (board[cursor_x][cursor_y] == EMPTY_SQUARE) {
+					return 1;
+				}
 			}
 		}
 	}
+	
+	return 0;
 }
-
-
 
 uint8_t check_phase() {
 	return phase;

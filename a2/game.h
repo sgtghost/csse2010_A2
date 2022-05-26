@@ -11,6 +11,13 @@
 #define GAME_H_
 
 #include <stdint.h>
+// The phase of game
+// Note: The original phase 2 is split into 2 phases here:
+// The new 'Phase 2' represents the stage in OG phase 2 where players select and
+// pick up their pieces.
+// And the new 'Phase 3' represents the stage in OG phase 2 where player put down
+// their pick-up pieces.
+uint8_t phase;
 
 // initialise the display of the board, this creates the internal board
 // and also updates the display of the board
@@ -43,11 +50,15 @@ void remove_piece(void);
 // If successful, the active player is switched.
 void move_piece(void);
 
+// returns 1 if the move is valid, 0 otherwise
+uint8_t check_valid_move(uint8_t phase);
+
 // returns the phase (1/2) of the game right now
 uint8_t check_phase(void);
 
 // returns 1 if the game is over, 0 otherwise
 uint8_t is_game_over(void);
+
 
 
 #endif

@@ -57,6 +57,10 @@ void initialise_hardware(void) {
 	// of incoming characters
 	init_serial_stdio(19200,0);
 	
+	// Setup up a output port for Valid Move Detection
+	DDRA = 1;
+	PORTA = 0;
+	
 	init_timer0();
 	
 	// Turn on global interrupts
@@ -166,11 +170,35 @@ void play_game(void) {
 				// i.e decrease y by 1 and leave x the same
 				move_display_cursor(0, -1);
 			} else if (serial_input == ' ') {
+				// If the serial input is ' ', place or remove the pieces
+				// based on the phase.
+				// Note: The original phase 2 is split into 2 phases here:
+				// The new 'Phase 2' represents the stage in OG phase 2 where players select and 
+				// pick up their pieces.
+				// And the new 'Phase 3' represents the stage in OG phase 2 where player put down
+				// their pick-up pieces.
 				if (check_phase() == 1) {
+					if (check_valid_move(1) != 1) {
+						PORTA = 1;
+						continue;
+					}
+					PORTA = 0;
 					piece_placement();
-				} else {
-					move_piece();
+				} else if (check_phase() == 2){
+					if (check_valid_move(2) != 1) {
+						PORTA = 1;
+						continue;
+					}
+					remove_piece();
+					PORTA = 0;
+				} else if (check_phase() == 3){
+				if (check_valid_move(3) != 1) {
+					PORTA = 1;
+					continue;
 				}
+				PORTA = 0;
+				piece_placement();
+			}
 			}
 		}
 		
