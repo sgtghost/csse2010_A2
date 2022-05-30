@@ -264,6 +264,7 @@ void play_game(void) {
 				}
 			}
 		} else {
+			// When the game is paused, ignore anything input possible
 			button_pushed();
 			if (serial_input_available()) {
 				serial_input = fgetc(stdin);
