@@ -34,6 +34,4 @@ void init_button_interrupts(void);
  * discarded.)
  */
 int8_t button_pushed(void);
-
-
 #endif /* BUTTONS_H_ */
