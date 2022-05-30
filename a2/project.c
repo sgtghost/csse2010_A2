@@ -35,6 +35,8 @@ void handle_game_over(void);
 
 // Game pause status
 uint8_t pause;
+// Tournament win counter
+uint8_t tournament_counter[2];
 /////////////////////////////// main //////////////////////////////////
 int main(void) {
 	// Setup hardware and call backs. This will turn on 
@@ -44,6 +46,10 @@ int main(void) {
 	// Show the splash screen message. Returns when display
 	// is complete
 	start_screen();
+	
+	// Setup the tournament
+	tournament_counter[0] = 0;
+	tournament_counter[1] = 0;
 	
 	// Loop forever,
 	while(1) {
@@ -277,16 +283,36 @@ void play_game(void) {
 		}
 	}
 	// We get here if the game is over.
+	tournament_counter[current_player - 1] ++;
 }
 
 void handle_game_over() {
-	move_terminal_cursor(10,14);
-	printf_P(PSTR("GAME OVER"));
-	move_terminal_cursor(10,15);
-	printf_P(PSTR("Winner is %d"), current_player);
-	move_terminal_cursor(10,16);
-	printf_P(PSTR("Press a button to start again"));
-	while(button_pushed() == NO_BUTTON_PUSHED) {
-		 // wait
-	}
+	if (tournament_counter[current_player - 1] == 2) {
+		move_terminal_cursor(10,14);
+		printf_P(PSTR("GAME OVER"));
+		move_terminal_cursor(10,15);
+		printf_P(PSTR("Winner is Player %d"), current_player);
+		move_terminal_cursor(10,16);
+		printf_P(PSTR("Press a button to start again"));
+		
+		// Reset the tournament
+		tournament_counter[0] = 0;
+		tournament_counter[1] = 0;
+		
+		while(button_pushed() == NO_BUTTON_PUSHED) {
+			// wait
+		}
+	} else {
+		move_terminal_cursor(10,14);
+		printf_P(PSTR("Round OVER"));
+		move_terminal_cursor(10,15);
+		printf_P(PSTR("Player 1 win count: %d"), tournament_counter[0]);
+		move_terminal_cursor(10,16);
+		printf_P(PSTR("Player 2 win count: %d"), tournament_counter[1]);
+		move_terminal_cursor(10,17);
+		printf_P(PSTR("Press a button to start next round"));
+		while(button_pushed() == NO_BUTTON_PUSHED) {
+			// wait
+		}
+	}	
 }
