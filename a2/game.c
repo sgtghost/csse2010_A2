@@ -193,10 +193,12 @@ uint8_t check_valid_move(uint8_t phase) {
 		if (abs(cursor_x - last_cursor_x) <= 1 && abs(cursor_y - last_cursor_y) <= 1) {
 			if (cursor_x != last_cursor_x || cursor_y != last_cursor_y) {
 				if (board[cursor_x][cursor_y] == EMPTY_SQUARE) {
+					current_cursor = PICK_CURSOR;
 					return 1;
 				}
 			}
 		}
+		current_cursor = ILLEGAL_CURSOR;
 	}
 	
 	return 0;

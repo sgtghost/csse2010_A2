@@ -25,12 +25,14 @@
 #define PLAYER_2		2
 #define CURSOR			3
 #define PICK_CURSOR	    4
+#define ILLEGAL_CURSOR	5
 // matrix colour definitions
 #define MATRIX_COLOUR_EMPTY		COLOUR_BLACK
 #define MATRIX_COLOUR_P1		COLOUR_GREEN
 #define MATRIX_COLOUR_P2		COLOUR_RED
 #define MATRIX_COLOUR_CURSOR	COLOUR_ORANGE
 #define MATRIX_COLOUR_PICK_CURSOR	COLOUR_LIGHT_GREEN
+#define MATRIX_COLOUR_ILLEGAL_CURSOR	COLOUR_YELLOW
 #define MATRIX_COLOUR_BG		COLOUR_LIGHT_YELLOW 
 
 // initialise the display for the board, this creates the display

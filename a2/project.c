@@ -157,18 +157,30 @@ void play_game(void) {
 				// If the serial input is 'a/A', move left,
 				// i.e decrease x by 1 and leave y the same
 				move_display_cursor(-1, 0);
+				if (check_phase() == 3) {
+					check_valid_move(3);
+				}
 			} else if (serial_input == 'd' || serial_input == 'D') {
 				// If the serial input is 'd/D', move right,
 				// i.e increase x by 1 and leave y the same
 				move_display_cursor(1, 0);
+				if (check_phase() == 3) {
+					check_valid_move(3);
+				}
 			} else if (serial_input == 'w' || serial_input == 'W') {
 				// If the serial input is 'w/W', move up,
 				// i.e increase y by 1 and leave x the same
 				move_display_cursor(0, 1);
+				if (check_phase() == 3) {
+					check_valid_move(3);
+				}
 			} else if (serial_input == 's' || serial_input == 'S') {
 				// If the serial input is 's/S', move down,
 				// i.e decrease y by 1 and leave x the same
 				move_display_cursor(0, -1);
+				if (check_phase() == 3) {
+					check_valid_move(3);
+				}
 			} else if (serial_input == ' ') {
 				// If the serial input is ' ', place or remove the pieces
 				// based on the phase.

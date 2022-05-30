@@ -92,6 +92,8 @@ void update_square_colour(uint8_t x, uint8_t y, uint8_t object) {
 		colour = MATRIX_COLOUR_CURSOR;
 	} else if (object == PICK_CURSOR) {
 		colour = MATRIX_COLOUR_PICK_CURSOR;
+	} else if (object == ILLEGAL_CURSOR) {
+	colour = MATRIX_COLOUR_ILLEGAL_CURSOR;
 	} else {
 		// anything unexpected will be black
 		colour = MATRIX_COLOUR_EMPTY;
