@@ -17,6 +17,7 @@
 #define CURSOR_X_START ((int)(WIDTH/2))
 #define CURSOR_Y_START ((int)(HEIGHT/2))
 
+uint8_t seven_seg_data[10] = {63,6,91,79,102,109,125,7,127,111};
 uint8_t board[WIDTH][HEIGHT];
 // cursor coordinates should be /* SIGNED */ to allow left and down movement.
 // All other positions should be unsigned as there are no negative coordinates.
@@ -200,7 +201,6 @@ uint8_t check_valid_move(uint8_t phase) {
 		}
 		current_cursor = ILLEGAL_CURSOR;
 	}
-	
 	return 0;
 }
 
